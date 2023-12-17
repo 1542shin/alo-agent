@@ -54,27 +54,7 @@ Current conversation:
 User: {input}
 AI:`;
 
-const chat_template = ChatPromptTemplate.fromMessages(
-  [
-      ("system", `In this conversation, a user will evaluate the statement made by a politician if it has any logical fallacies.
-      You will write a feedback on the user's input whether the user found out all the logical fallacies in the statement.
-      
-      Here are the statement and logical fallacies it has.
-      
-      #statement: 
-      ${statement}
-      
-      #fallacies the statement has:
-      ${fallacies}
-      
-      
-      #Current conversation:
-      {chat_history}
-      `),
-      ("user", "{input}"),
-     
-  ]
-)
+
 /**
  * This handler initializes and calls a simple chain with a prompt,
  * chat model, and output parser. See the docs for more information:
