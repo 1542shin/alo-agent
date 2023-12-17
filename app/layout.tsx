@@ -16,19 +16,19 @@ export default function RootLayout({
         <title>Alo</title>
         <meta
           name="description"
-          content="Let's find out how sharp your reasoning really is"
+          content="Find out how sharp your reasoning really is"
         />
         <meta property="og:title" content="Alo" />
         <meta
           property="og:description"
-          content="et's find out how sharp your reasoning really is"
+          content="Find out how sharp your reasoning really is"
         />
         <meta property="og:image" content="/images/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Alo" />
         <meta
           name="twitter:description"
-          content="et's find out how sharp your reasoning really is"
+          content="Find out how sharp your reasoning really is"
         />
         <meta name="twitter:image" content="/images/og-image.png" />
       </head>
@@ -37,6 +37,7 @@ export default function RootLayout({
           {/* <Navbar></Navbar> */}
           {children}
         </div>
+      
       </body>
     </html>
   );
