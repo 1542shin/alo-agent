@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
 
     const client = createClient(
       process.env.SUPABASE_URL!,
-      process.env.SUPABASE_PRIVATE_KEY!,
+      process.env.SUPABASE_PASSWORD!,
     );
     const vectorstore = new SupabaseVectorStore(new OpenAIEmbeddings(), {
       client,

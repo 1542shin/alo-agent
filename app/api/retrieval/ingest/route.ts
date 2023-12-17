@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
   try {
     const client = createClient(
       process.env.SUPABASE_URL!,
-      process.env.SUPABASE_PRIVATE_KEY!,
+      process.env.SUPABASE_PASSWORD!,
     );
 
     const splitter = RecursiveCharacterTextSplitter.fromLanguage("markdown", {
