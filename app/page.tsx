@@ -17,10 +17,10 @@ export default function Home() {
         <li className=" text-l md:block">
       ►
           <span className="ml-2">
-          Let's find out how sharp your reasoning really is!          </span>
+          Find out how sharp your reasoning really is!          </span>
         </li>
       
-        <p className="p-4 md:p-8 rounded bg-[#000000]">"My fellow citizens, crime rates have gone down since our administration took office. <br/>This is a direct result of our new tough-on-crime policies. <br/>Those who oppose our methods simply don't care about the safety of our nation.<br/> Remember, before we came into power, the opposition had decades to fix the problem, and they failed. <br/>It's either our proven approach or a return to the chaos of the past. <br/>We must not let the fearmongers and naysayers dictate our future."
+        <p className="p-4 md:p-8 rounded bg-[#000000]">My fellow citizens, crime rates have gone down since our administration took office. <br/>This is a direct result of our new tough-on-crime policies. <br/>Those who oppose our methods simply do not care about the safety of our nation.<br/> Remember, before we came into power, the opposition had decades to fix the problem, and they failed. <br/>It is either our proven approach or a return to the chaos of the past. <br/>We must not let the fearmongers and naysayers dictate our future.
 </p>
 
        
