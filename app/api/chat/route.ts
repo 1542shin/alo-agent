@@ -5,35 +5,48 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 import { BytesOutputParser } from "langchain/schema/output_parser";
 import { PromptTemplate } from "langchain/prompts";
 
+import { ChatPromptTemplate } from "langchain/prompts";
+
 export const runtime = "edge";
 
 const formatMessage = (message: VercelChatMessage) => {
   return `${message.role}: ${message.content}`;
 };
 
-const statement="My fellow citizens, crime rates have gone down since our administration took office. This is a direct result of our new tough-on-crime policies. Those who oppose our methods simply don't care about the safety of our nation. Remember, before we came into power, the opposition had decades to fix the problem, and they failed. It's either our proven approach or a return to the chaos of the past. We must not let the fearmongers and naysayers dictate our future. It's time to stay the course for a safer tomorrow."
+const statement=`My fellow citizens, crime rates have gone down since our administration took office.
+This is a direct result of our new tough-on-crime policies.
+Those who oppose our methods simply don't care about the safety of our nation.
+Remember, before we came into power, the opposition had decades to fix the problem, and they failed.
+It's either our proven approach or a return to the chaos of the past.
+We must not let the fearmongers and naysayers dictate our future.`
 
-const fallacies=`1.The politician claims that the decrease in crime rates is a direct result of their policies, assuming a cause-and-effect relationship without providing concrete evidence that their policies are the cause of the decrease in crime.
+const fallacies=`
+- After This, Therefore Because of This: The speaker assumes that because crime rates dropped after the new policies were introduced, the policies must be the cause of the drop. This ignores other possible factors that could have influenced the crime rate.
 
-2. The statement presents the situation as having only two alternatives: the politician's approach or a return to chaos. This ignores other possible alternatives.
+- Either-Or Fallacy: The speaker presents only two options: their proven approach or a return to the chaos of the past. This simplifies the situation and ignores other potential solutions or approaches to crime reduction.
 
-3. The politician attacks the character of the opponents by suggesting they don't care about the safety of the nation, rather than addressing the opponents' arguments or policies.
+- Attack on the Person: The speaker attacks the character of the opponents by suggesting that they "simply don't care about the safety of our nation," instead of addressing the actual merits or flaws of their arguments.
 
-4. The politician uses fearmongering by suggesting that not following their policies would lead to chaos, playing on the audience's fears to win support.
+- Straw Man Fallacy: The speaker may be misrepresenting the opposition's position by suggesting that they are fearmongers and naysayers, which simplifies and distorts the actual opposing views for the sake of easier refutation.
 
-5. The politician may be misrepresenting the opposition's position by suggesting they had "decades to fix the problem" and did nothing, which may not accurately reflect the opposition's efforts or policies.
-
-6. Implicit in the statement is the idea that because their administration's policies are currently in place and crime has gone down, the policies must be correct and should be continued. This suggests that the popularity of the policy is an indicator of its correctness.
+- Appeal to Fear: The speaker uses fear ("a return to the chaos of the past") to persuade the audience to accept their policies.
 `
-
+//You'll be given the statement and the fallacies it has. Point out what fallacies the user have found, and what fallacies the user have not found.
 const TEMPLATE = `
-A user will be given a statement below from a politician. The statement has multiple logical fallacies. The user will evaluate if the statement is valid or not. Then you will evaluate if the user have found logical fallicies from the statement.
+A user will be given a statement from a politician which has five logical fallacies. Then the user will find what logical fallacies the statement has. The user have to find all five logical fallacies.
+Give feedback to user that what logical fallacies the user found correctly, and explain what logical fallacies the user failed to find.
 
-#Here's the statement: 
+Here are the statement and logical fallacies it has.
+
+#statement: 
 ${statement}
 
-#The statement has following logical fallacies:
+#fallacies the statement has:
 ${fallacies}
+
+#input:
+{input}
+
 
 Current conversation:
 {chat_history}
@@ -41,6 +54,27 @@ Current conversation:
 User: {input}
 AI:`;
 
+const chat_template = ChatPromptTemplate.fromMessages(
+  [
+      ("system", `In this conversation, a user will evaluate the statement made by a politician if it has any logical fallacies.
+      You will write a feedback on the user's input whether the user found out all the logical fallacies in the statement.
+      
+      Here are the statement and logical fallacies it has.
+      
+      #statement: 
+      ${statement}
+      
+      #fallacies the statement has:
+      ${fallacies}
+      
+      
+      #Current conversation:
+      {chat_history}
+      `),
+      ("user", "{input}"),
+     
+  ]
+)
 /**
  * This handler initializes and calls a simple chain with a prompt,
  * chat model, and output parser. See the docs for more information:
@@ -53,6 +87,9 @@ export async function POST(req: NextRequest) {
     const messages = body.messages ?? [];
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
     const currentMessageContent = messages[messages.length - 1].content;
+
+
+
     const prompt = PromptTemplate.fromTemplate(TEMPLATE);
     /**
      * You can also try e.g.:

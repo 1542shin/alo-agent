@@ -10,9 +10,9 @@ export function ChatMessageBubble(props: { message: Message, aiEmoji?: string, s
     <div
       className={`${alignmentClassName} ${colorClassName} rounded px-4 py-2 max-w-[80%] mb-8 flex`}
     >
-      <div className="mr-2">
+      {/* <div className="mr-2">
         {prefix}
-      </div>
+      </div> */}
       <div className="whitespace-pre-wrap flex flex-col">
         <span>{props.message.content}</span>
         {props.sources && props.sources.length ? <>
